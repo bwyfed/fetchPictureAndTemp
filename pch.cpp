@@ -111,10 +111,15 @@ int CALLBACK callback(BYTE * pBuffer, DWORD bufSize) {
 int CALL_METHOD CICDI_CLIENT_FetchPicture_DetectTemp(
 	long long lLoginID,
 	int nChannelID,
-	unsigned long dwAlarmType,
+	unsigned long dwAlarmType, // DWORD
 	bool bNeedPicFile,
 	unsigned int dwUser,
-	void* Reserved) {
+	void* Reserved,
+	// 下面为出参
+	//unsigned long *dwAlarmType,
+	void *pAlarmInfo,
+	unsigned char *pBuffer,
+	unsigned int *dwBuffSize) {
 	cout << "in c++, CICDI_CLIENT_FetchPicture_DetectTemp, params:" << endl;
 	cout << "lLoginID: " << lLoginID
 		<< ",nChannelID: " << nChannelID
@@ -123,6 +128,11 @@ int CALL_METHOD CICDI_CLIENT_FetchPicture_DetectTemp(
 		<< ",dwUser: "<< dwUser
 		<< ",Reserved: " << Reserved
 		<< endl;
-
+	// 内部不必再分配空间
+	unsigned long initBuffSize = 8;
+	for (int i = 0; i < initBuffSize; i++) {
+		pBuffer[i] = 'A' + i;
+	}
+	*dwBuffSize = 9;
 	return 200;
 }

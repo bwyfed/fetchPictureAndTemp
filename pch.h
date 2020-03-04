@@ -24,7 +24,12 @@ extern "C" _declspec(dllexport) int CALL_METHOD CICDI_CLIENT_FetchPicture_Detect
 	unsigned long dwAlarmType,
 	bool bNeedPicFile,
 	unsigned int dwUser,
-	void* Reserved);
+	void* Reserved,
+	// 下面是输出参数
+	//unsigned long *dwAlarmType,
+	void *pAlarmInfo,
+	unsigned char *pBuffer,
+	unsigned int *dwBuffSize);
 // 调用其他的dll
 //extern "C" _declspec(dllexport) int Sub(int a, int b);
 #endif //PCH_H

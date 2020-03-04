@@ -7,16 +7,14 @@
 #ifndef PCH_H
 #define PCH_H
 
+extern "C" _declspec(dllexport) int Add(int a, int b);
+extern "C" _declspec(dllexport) int Sub(int a, int b);
+extern "C" _declspec(dllexport) int printArray(int *arr,int size);
+extern "C" _declspec(dllexport) int* create_array(int size);
+extern "C" _declspec(dllexport) int getMemory(int **pBuffer, int size);
+extern "C" _declspec(dllexport) int getMemory2(int *&pBuffer, int size);
+extern "C" _declspec(dllexport) void get_md5_string(char *out_string, int size);
 // 添加要在此处预编译的标头
 #include "framework.h"
-#include <include/dhnetsdk.h>
 
-extern "C" _declspec(dllexport) int Add(int a, int b);
-
-typedef int(__stdcall *fTestCallback)(BYTE * pBuffer, DWORD bufSize);
-int CALLBACK callback(BYTE * pBuffer, DWORD bufSize);
-int invokeCallback(int a, int b, fTestCallback cb);
-extern "C" _declspec(dllexport) void testInvokeCallback(int a, int b, BYTE *out, DWORD* size);
-// 调用其他的dll
-//extern "C" _declspec(dllexport) int Sub(int a, int b);
 #endif //PCH_H

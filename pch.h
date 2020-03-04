@@ -17,6 +17,14 @@ typedef int(__stdcall *fTestCallback)(BYTE * pBuffer, DWORD bufSize);
 int CALLBACK callback(BYTE * pBuffer, DWORD bufSize);
 int invokeCallback(int a, int b, fTestCallback cb);
 extern "C" _declspec(dllexport) void testInvokeCallback(int a, int b, BYTE *out, DWORD* size);
+
+extern "C" _declspec(dllexport) int CALL_METHOD CICDI_CLIENT_FetchPicture_DetectTemp(
+	long long lLoginID,
+	int nChannelID,
+	unsigned long dwAlarmType,
+	bool bNeedPicFile,
+	unsigned int dwUser,
+	void* Reserved);
 // 调用其他的dll
 //extern "C" _declspec(dllexport) int Sub(int a, int b);
 #endif //PCH_H

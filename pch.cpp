@@ -106,3 +106,23 @@ int CALLBACK callback(BYTE * pBuffer, DWORD bufSize) {
 	cout << endl;
 	return 200;
 }
+
+// 提供给JS调用的函数，返回照片和温度相关的信息
+int CALL_METHOD CICDI_CLIENT_FetchPicture_DetectTemp(
+	long long lLoginID,
+	int nChannelID,
+	unsigned long dwAlarmType,
+	bool bNeedPicFile,
+	unsigned int dwUser,
+	void* Reserved) {
+	cout << "in c++, CICDI_CLIENT_FetchPicture_DetectTemp, params:" << endl;
+	cout << "lLoginID: " << lLoginID
+		<< ",nChannelID: " << nChannelID
+		<< ",dwAlarmType: " << dwAlarmType
+		<< ",bNeedPicFile: " << bNeedPicFile
+		<< ",dwUser: "<< dwUser
+		<< ",Reserved: " << Reserved
+		<< endl;
+
+	return 200;
+}

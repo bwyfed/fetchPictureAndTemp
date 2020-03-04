@@ -9,6 +9,14 @@ using namespace std;
 
 typedef int(*funcptr) (int, int);
 
+typedef DWORD(*errfuncptr) ();
+typedef int(*func2ptr) (long long lLoginID,
+	int nChannelID,
+	unsigned long dwAlarmType, // DWORD
+	bool bNeedPicFile,
+	unsigned int dwUser,
+	void* Reserved);
+
 #ifdef _WIN64
 #pragma comment(lib, "lib/win64/dhnetsdk.lib")
 //#pragma comment(lib, "lib/win64/mydll.lib")
@@ -128,6 +136,39 @@ int CALL_METHOD CICDI_CLIENT_FetchPicture_DetectTemp(
 		<< ",dwUser: "<< dwUser
 		<< ",Reserved: " << Reserved
 		<< endl;
+	// 调用大华dll
+	const char *str = "dhnetsdk.dll";
+	WCHAR wszClassName[256];
+	memset(wszClassName, 0, sizeof(wszClassName));
+	MultiByteToWideChar(CP_ACP, 0, str, strlen(str) + 1, wszClassName, sizeof(wszClassName) / sizeof(wszClassName[0]));
+	const char* funcName = "CLIENT_RealLoadPictureEx";
+	HMODULE hDLL = LoadLibrary(wszClassName);
+	if (hDLL != NULL) {
+		cout << "hahaha1" << endl;
+		func2ptr func = (func2ptr)GetProcAddress(hDLL, funcName);
+		errfuncptr errfunc = (errfuncptr)GetProcAddress(hDLL, "CLIENT_GetLastError");
+		cout << "gagaga2" << endl;
+		if (func != NULL)
+		{
+			int lRealloadHandle = (*func)(lLoginID, nChannelID, dwAlarmType, bNeedPicFile, dwUser, Reserved);
+			cout << "lRealloadHandle=" << lRealloadHandle << endl;
+			if (lRealloadHandle)
+			{
+				cout<<"CLIENT_RealLoadPictureEx success\n";
+			}
+			else
+			{
+				cout<<"CLIENT_RealLoadPictureEx fail, error:"<< (*errfunc)()<<endl;
+			}
+		}
+		else
+		{
+			std::cout << "Cannot Find Function " << funcName << endl;
+		}
+	}
+	else {
+		cout << "wuwu" << endl;
+	}
 	// 内部不必再分配空间
 	unsigned long initBuffSize = 8;
 	for (int i = 0; i < initBuffSize; i++) {

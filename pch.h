@@ -9,6 +9,12 @@
 
 // 添加要在此处预编译的标头
 #include "framework.h"
+#include <include/dhnetsdk.h>
 
 extern "C" _declspec(dllexport) int Add(int a, int b);
+
+typedef int(__stdcall *fTestCallback)(BYTE * pBuffer, DWORD bufSize);
+int CALLBACK callback(BYTE * pBuffer, DWORD bufSize);
+int invokeCallback(int a, int b, fTestCallback cb);
+extern "C" _declspec(dllexport) void testInvokeCallback(int a, int b, BYTE *out, DWORD* size);
 #endif //PCH_H
